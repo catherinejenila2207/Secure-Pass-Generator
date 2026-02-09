@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Pass Gen 🔒</title>
+    <style>
+       /* Modern UI Refinement */
+body {
+    font-family: 'Poppins', sans-serif; /* Cleaner font choice */
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: #fff;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1); /* Glassmorphism effect */
+    backdrop-filter: blur(10px);
+    padding: 2.5rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    width: 380px;
+    transition: transform 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+h2 { 
+    color: #00d2ff; 
+    margin-bottom: 25px; 
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.input-group { 
+    margin-bottom: 25px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+label { font-size: 1.1rem; color: #e0e0e0; }
+
+input[type="number"] {
+    padding: 10px;
+    width: 70px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #00d2ff;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    outline: none;
+    text-align: center;
+}
+
+button[type="submit"] {
+    background: linear-gradient(to right, #00d2ff, #3a7bd5);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+}
+
+button[type="submit"]:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(0, 210, 255, 0.5);
+}
+
+.result-box {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    padding: 20px;
+    margin-top: 25px;
+    border-radius: 12px;
+}
+
+code {
+    font-size: 1.3rem;
+    color: #ff9d00; /* High contrast for the password */
+    word-break: break-all;
+    display: block;
+    margin-bottom: 15px;
+    font-family: 'Courier New', Courier, monospace;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid #28a745;
+    color: #28a745;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.copy-btn:hover {
+    background: #28a745;
+    color: white;
+}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Password Gen 🔒</h2>
+        
+        <form method="POST">
+            <div class="input-group">
+                <label>Length: </label>
+                <input type="number" name="length" value="{{ request.form.get('length', 12) }}" min="8" max="50">
+            </div>
+            <button type="submit">Generate Password</button>
+        </form>
+
+        {% if password %}
+        <div class="result-box">
+            <code id="passText">{{ password }}</code>
+            <button class="copy-btn" onclick="copyToClipboard()">📋 Copy</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            // Text-ah select panrom
+            var text = document.getElementById("passText").innerText;
+            
+            // Clipboard-ku copy panrom
+            navigator.clipboard.writeText(text).then(function() {
+                alert("Password copied to clipboard! ✅");
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
